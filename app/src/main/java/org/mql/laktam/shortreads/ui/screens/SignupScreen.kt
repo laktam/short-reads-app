@@ -17,33 +17,17 @@ import org.mql.laktam.shortreads.viewmodel.AuthViewModel
 @Composable
 fun SignupScreen(viewModel: AuthViewModel) {
     val authState by viewModel.authState.observeAsState()
-    var name by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.padding(16.dp)) {
-        when (authState) {
-            is AuthState.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.fillMaxWidth())
-            }
-            is AuthState.Success -> {
-                val user = (authState as AuthState.Success).user
-                Text(text = "Welcome, ${user.username}")
-            }
-            is AuthState.Error -> {
-                val message = (authState as AuthState.Error).message
-                Text(text = "Error: $message", color = MaterialTheme.colorScheme.error)
-            }
-            null -> {
-                Text(text = "No state")
-            }
-        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = name,
-            onValueChange = { name = it },
+            value = username,
+            onValueChange = { username = it },
             label = { Text("Name") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -66,9 +50,26 @@ fun SignupScreen(viewModel: AuthViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            viewModel.signup(name, email, password)
+            viewModel.signup(username, email, password)
         }, modifier = Modifier.fillMaxWidth()) {
             Text("Sign Up")
+        }
+
+        when (authState) {
+            is AuthState.Loading -> {
+                CircularProgressIndicator(modifier = Modifier.fillMaxWidth())
+            }
+            is AuthState.Success -> {
+                val user = (authState as AuthState.Success).user
+                Text(text = "Welcome, ${user.username}")
+            }
+            is AuthState.Error -> {
+                val message = (authState as AuthState.Error).message
+                Text(text = "Error: $message", color = MaterialTheme.colorScheme.error)
+            }
+            null -> {
+                Text(text = "No state")
+            }
         }
     }
 }
