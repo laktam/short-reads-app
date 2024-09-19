@@ -22,7 +22,8 @@ class AuthRepository {
             if (response.isSuccessful) {
                 response.body() ?: throw Exception("Signup failed: No user returned")
             } else {
-                throw Exception("Signup failed: ${response.message()}")
+                val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                throw Exception(errorMessage)
             }
         }
     }

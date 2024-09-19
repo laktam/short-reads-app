@@ -21,7 +21,7 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
                 val user = authRepository.signup(name, email, password)
                 _authState.value = AuthState.Success(user)
             } catch (e: Exception) {
-                _authState.value = AuthState.Error("Signup failed: ${e.message}")
+                _authState.value = AuthState.Error("${e.message}")
             }
         }
     }

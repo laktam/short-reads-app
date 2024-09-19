@@ -23,7 +23,7 @@ fun SignupScreen(viewModel: AuthViewModel) {
 
     Column(modifier = Modifier.padding(16.dp)) {
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         TextField(
             value = username,
@@ -61,14 +61,15 @@ fun SignupScreen(viewModel: AuthViewModel) {
             }
             is AuthState.Success -> {
                 val user = (authState as AuthState.Success).user
+                // i should redirect to login
                 Text(text = "Welcome, ${user.username}")
             }
             is AuthState.Error -> {
                 val message = (authState as AuthState.Error).message
-                Text(text = "Error: $message", color = MaterialTheme.colorScheme.error)
+                Text(text = message, color = MaterialTheme.colorScheme.error)
             }
             null -> {
-                Text(text = "No state")
+//                Text(text = "No state")
             }
         }
     }
