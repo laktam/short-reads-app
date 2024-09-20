@@ -13,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import org.mql.laktam.shortreads.repositories.AuthRepository
+import org.mql.laktam.shortreads.ui.navigation.AppNavGraph
+import org.mql.laktam.shortreads.ui.screens.LoginScreen
 import org.mql.laktam.shortreads.ui.screens.SignupScreen
 import org.mql.laktam.shortreads.ui.theme.ShortReadsTheme
 import org.mql.laktam.shortreads.viewmodel.AuthViewModel
@@ -26,7 +28,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ShortReadsTheme {
-                SignupScreen(viewModel = authViewModel)
+                AppNavGraph(authViewModel = authViewModel)
+//                SignupScreen(viewModel = authViewModel)
             }
         }
     }

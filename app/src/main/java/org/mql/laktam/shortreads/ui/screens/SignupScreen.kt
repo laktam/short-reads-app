@@ -12,15 +12,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import org.mql.laktam.shortreads.models.AuthState
 import org.mql.laktam.shortreads.viewmodel.AuthViewModel
 
 @Composable
-fun SignupScreen(viewModel: AuthViewModel) {
+fun SignupScreen(viewModel: AuthViewModel,  navController: NavController ) {
+    LaunchedEffect(Unit) {
+        viewModel.resetState()
+    }
+
+
     val authState by viewModel.authState.observeAsState()
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    // Check for success state and navigate to login screen
+    LaunchedEffect(authState) {
+        if (authState is AuthState.Success) {
+            navController.navigate("login")
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -76,13 +89,9 @@ fun SignupScreen(viewModel: AuthViewModel) {
                             val message = (authState as AuthState.Success).message
                             Text(text = message)
                         }
-
                         is AuthState.Error -> {
                             val message = (authState as AuthState.Error).message
                             Text(text = message, color = MaterialTheme.colorScheme.error)
-                        }
-
-                        null -> {
                         }
                         else -> {}
                     }

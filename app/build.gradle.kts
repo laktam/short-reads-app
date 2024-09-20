@@ -50,6 +50,8 @@ android {
 }
 
 dependencies {
+    // navigation dependencies
+    implementation(libs.androidx.navigation.compose)
     // Retrofit and coroutines dependencies to call backend rest api
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
