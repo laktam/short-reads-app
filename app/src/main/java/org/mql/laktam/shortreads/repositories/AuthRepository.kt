@@ -15,12 +15,12 @@ class AuthRepository {
         // Mocking a successful login for demonstration
         return User(email, "John Doe")
     }
-
-    suspend fun signup(name: String, email: String, password: String): User {
+    // withContext(Dispatchers.IO) used to perform network or I/O operation on a background thread
+    suspend fun signup(name: String, email: String, password: String): String {
         return withContext(Dispatchers.IO) {
             val response = authApiService.signup(SignupRequest(name, email, password))
             if (response.isSuccessful) {
-                response.body() ?: throw Exception("Signup failed: No user returned")
+                response.body() ?: throw Exception("Signup failed")
             } else {
                 val errorMessage = response.errorBody()?.string() ?: "Unknown error"
                 throw Exception(errorMessage)

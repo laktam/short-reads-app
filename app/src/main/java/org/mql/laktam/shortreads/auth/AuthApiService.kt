@@ -9,5 +9,5 @@ data class SignupRequest(val username: String, val email: String, val password: 
 
     interface AuthApiService {
         @POST("signup")
-    suspend fun signup(@Body request: SignupRequest): Response<User>
+    suspend fun signup(@Body request: SignupRequest): Response<String>
 }

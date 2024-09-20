@@ -29,11 +29,9 @@ fun SignupScreen(viewModel: AuthViewModel) {
     ) {
         when (authState) {
             is AuthState.Loading -> {
-                // Show CircularProgressIndicator in the center of the screen
                 CircularProgressIndicator()
             }
             else -> {
-                // Show the form if the state is not loading
                 Column(
                     modifier = Modifier
                         .padding(16.dp)
@@ -75,8 +73,8 @@ fun SignupScreen(viewModel: AuthViewModel) {
 
                     when (authState) {
                         is AuthState.Success -> {
-                            val user = (authState as AuthState.Success).user
-                            Text(text = "Welcome, ${user.username}")
+                            val message = (authState as AuthState.Success).message
+                            Text(text = message)
                         }
 
                         is AuthState.Error -> {
@@ -85,9 +83,7 @@ fun SignupScreen(viewModel: AuthViewModel) {
                         }
 
                         null -> {
-                            // No state
                         }
-
                         else -> {}
                     }
                 }

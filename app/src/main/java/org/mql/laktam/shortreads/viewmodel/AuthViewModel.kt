@@ -20,8 +20,8 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
             _authState.value = AuthState.Loading
             try {
                 delay(3000L)
-                val user = authRepository.signup(name, email, password)
-                _authState.value = AuthState.Success(user)
+                val message = authRepository.signup(name, email, password)
+                _authState.value = AuthState.Success(message)
             } catch (e: Exception) {
                 _authState.value = AuthState.Error("${e.message}")
             }
