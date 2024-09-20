@@ -15,6 +15,19 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
     private val _authState = MutableLiveData<AuthState>()
     val authState: LiveData<AuthState> = _authState
 
+    fun login(username: String, password: String) {
+        viewModelScope.launch {
+            _authState.value = AuthState.Loading
+            try {
+                val response = authRepository.login(username, password)
+                println("token ::::::::: ${response.token}")
+                _authState.value = AuthState.Success("Login successful")
+            } catch (e: Exception) {
+                _authState.value = AuthState.Error("${e.message}")
+            }
+        }
+    }
+
     fun signup(name: String, email: String, password: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
@@ -26,6 +39,11 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
                 _authState.value = AuthState.Error("${e.message}")
             }
         }
+    }
+
+    // Function to reset the AuthState whenever the login or signup screen are composed
+    fun resetState() {
+        _authState.value = AuthState.Idle
     }
 }
 
