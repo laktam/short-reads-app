@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.mql.laktam.shortreads.auth.RetrofitClient
 import org.mql.laktam.shortreads.auth.SignupRequest
+import org.mql.laktam.shortreads.models.SignupResponse
 import org.mql.laktam.shortreads.models.User
 
 // Handles communication with the backend for authentication.
@@ -16,7 +17,7 @@ class AuthRepository {
         return User(email, "John Doe")
     }
     // withContext(Dispatchers.IO) used to perform network or I/O operation on a background thread
-    suspend fun signup(name: String, email: String, password: String): String {
+    suspend fun signup(name: String, email: String, password: String): SignupResponse {
         return withContext(Dispatchers.IO) {
             val response = authApiService.signup(SignupRequest(name, email, password))
             if (response.isSuccessful) {
