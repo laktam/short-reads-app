@@ -23,7 +23,8 @@ fun SignupScreen(viewModel: AuthViewModel,  navController: NavController ) {
     }
 
 
-    val authState by viewModel.authState.observeAsState()
+//    val authState by viewModel.authState.observeAsState()
+    val authState by viewModel.authState
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }

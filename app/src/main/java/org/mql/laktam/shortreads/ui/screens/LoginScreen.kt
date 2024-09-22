@@ -23,7 +23,8 @@ fun LoginScreen(viewModel: AuthViewModel, navController: NavController ) {
         viewModel.resetState()
     }
     val context = LocalContext.current;
-    val authState by viewModel.authState.observeAsState()
+//    val authState by viewModel.authState.observeAsState()
+    val authState by viewModel.authState
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 

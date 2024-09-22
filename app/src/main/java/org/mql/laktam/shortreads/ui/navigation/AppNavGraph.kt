@@ -12,7 +12,7 @@ import org.mql.laktam.shortreads.viewmodels.AuthViewModel
 @Composable
 fun AppNavGraph(authViewModel: AuthViewModel) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "login") {
+    NavHost(navController = navController, startDestination = "signup") {
         composable("signup") { SignupScreen(authViewModel, navController) }
         composable("login") { LoginScreen(authViewModel, navController) }
         composable("profile/{username}") { backStackEntry ->
