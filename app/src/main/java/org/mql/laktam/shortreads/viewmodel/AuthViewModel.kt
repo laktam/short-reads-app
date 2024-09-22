@@ -22,7 +22,7 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
             try {
                 val response = authRepository.login(username, password)
                 println("token ::::::::: ${response.token}")
-                saveTokenToSharedPreferences(context, response.token)
+                saveToSharedPreferences(context, response.token, username)
                 _authState.value = AuthState.Success("Login successful")
             } catch (e: Exception) {
                 _authState.value = AuthState.Error("${e.message}")
@@ -48,10 +48,11 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
         _authState.value = AuthState.Idle
     }
 
-    fun saveTokenToSharedPreferences(context: Context, token: String) {
+    fun saveToSharedPreferences(context: Context, token: String, username: String) {
         val sharedPreferences = context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("jwt_token", token)
+        editor.putString("username", username)
         editor.apply()
     }
 

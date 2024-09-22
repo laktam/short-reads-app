@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import org.mql.laktam.shortreads.ui.screens.LoginScreen
+import org.mql.laktam.shortreads.ui.screens.ProfileScreen
 import org.mql.laktam.shortreads.ui.screens.SignupScreen
 import org.mql.laktam.shortreads.viewmodel.AuthViewModel
 
@@ -15,5 +16,9 @@ fun AppNavGraph(authViewModel: AuthViewModel) {
     NavHost(navController = navController, startDestination = "login") {
         composable("signup") { SignupScreen(authViewModel, navController) }
         composable("login") { LoginScreen(authViewModel, navController) }
+        composable("profile/{username}") { backStackEntry ->
+            val username = backStackEntry.arguments?.getString("username") ?: ""
+            ProfileScreen(username, authViewModel, navController)
+        }
     }
 }
