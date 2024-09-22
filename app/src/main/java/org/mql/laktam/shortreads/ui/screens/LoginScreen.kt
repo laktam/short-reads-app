@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -21,10 +22,16 @@ fun LoginScreen(viewModel: AuthViewModel, navController: NavController ) {
     LaunchedEffect(Unit) {
         viewModel.resetState()
     }
-
+    val context = LocalContext.current;
     val authState by viewModel.authState.observeAsState()
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    LaunchedEffect(authState) {
+        if (authState is AuthState.Success) {
+            navController.navigate("profile/${username}")
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -63,7 +70,7 @@ fun LoginScreen(viewModel: AuthViewModel, navController: NavController ) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Button(onClick = {
-                        viewModel.login(username, password)
+                        viewModel.login(username, password, context)
                     }, modifier = Modifier.fillMaxWidth()) {
                         Text("Login")
                     }
