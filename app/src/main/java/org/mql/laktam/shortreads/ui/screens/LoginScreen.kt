@@ -15,7 +15,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.mql.laktam.shortreads.models.AuthState
-import org.mql.laktam.shortreads.viewmodel.AuthViewModel
+import org.mql.laktam.shortreads.viewmodels.AuthViewModel
 
 @Composable
 fun LoginScreen(viewModel: AuthViewModel, navController: NavController ) {
