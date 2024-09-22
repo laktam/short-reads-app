@@ -1,6 +1,8 @@
 package org.mql.laktam.shortreads.viewmodels
 
 import android.content.Context
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,8 +15,11 @@ import org.mql.laktam.shortreads.repositories.AuthRepository
 //Manages the signup logic and exposes state to the UI
 class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepository
     private val authRepository = AuthRepository()
-    private val _authState = MutableLiveData<AuthState>()
-    val authState: LiveData<AuthState> = _authState
+//    private val _authState = MutableLiveData<AuthState>()
+//    val authState: LiveData<AuthState> = _authState
+
+    private var _authState = mutableStateOf<AuthState>(AuthState.Loading)
+    val authState: State<AuthState> get() = _authState
 
     fun login(username: String, password: String, context: Context) {
         viewModelScope.launch {
@@ -48,7 +53,7 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
         _authState.value = AuthState.Idle
     }
 
-    fun saveToSharedPreferences(context: Context, token: String, username: String) {
+    private fun saveToSharedPreferences(context: Context, token: String, username: String) {
         val sharedPreferences = context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("jwt_token", token)
