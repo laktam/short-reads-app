@@ -9,14 +9,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.mql.laktam.shortreads.auth.TokenManager
 import org.mql.laktam.shortreads.models.AuthState
 import org.mql.laktam.shortreads.repositories.AuthRepository
 
 //Manages the signup logic and exposes state to the UI
 class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepository
     private val authRepository = AuthRepository()
-//    private val _authState = MutableLiveData<AuthState>()
-//    val authState: LiveData<AuthState> = _authState
 
     private var _authState = mutableStateOf<AuthState>(AuthState.Loading)
     val authState: State<AuthState> get() = _authState
@@ -27,7 +26,8 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
             try {
                 val response = authRepository.login(username, password)
                 println("token ::::::::: ${response.token}")
-                saveToSharedPreferences(context, response.token, username)
+                val tokenManager = TokenManager(context)
+                tokenManager.saveToken(response.token)
                 _authState.value = AuthState.Success("Login successful")
             } catch (e: Exception) {
                 _authState.value = AuthState.Error("${e.message}")
@@ -39,7 +39,7 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
         viewModelScope.launch {
             _authState.value = AuthState.Loading
             try {
-                delay(1000L)
+//                delay(1000L)
                 val response = authRepository.signup(name, email, password)
                 _authState.value = AuthState.Success(response.message)
             } catch (e: Exception) {
@@ -51,14 +51,6 @@ class AuthViewModel() : ViewModel() {//private val authRepository: AuthRepositor
     // Function to reset the AuthState whenever the login or signup screen are composed
     fun resetState() {
         _authState.value = AuthState.Idle
-    }
-
-    private fun saveToSharedPreferences(context: Context, token: String, username: String) {
-        val sharedPreferences = context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("jwt_token", token)
-        editor.putString("username", username)
-        editor.apply()
     }
 
 
