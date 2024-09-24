@@ -16,9 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.mql.laktam.shortreads.models.AuthState
 import org.mql.laktam.shortreads.viewmodels.AuthViewModel
+import org.mql.laktam.shortreads.viewmodels.ProfileViewModel
 
 @Composable
-fun LoginScreen(viewModel: AuthViewModel, navController: NavController ) {
+fun LoginScreen(viewModel: AuthViewModel,profileViewModel: ProfileViewModel, navController: NavController ) {
     LaunchedEffect(Unit) {
         viewModel.resetState()
     }
@@ -30,7 +31,9 @@ fun LoginScreen(viewModel: AuthViewModel, navController: NavController ) {
 
     LaunchedEffect(authState) {
         if (authState is AuthState.Success) {
+            profileViewModel.updateCurrentUsername(username)
             navController.navigate("profile/${username}")
+//            navController.navigate("editProfile")
         }
     }
 
