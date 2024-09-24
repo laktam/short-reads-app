@@ -10,7 +10,7 @@ import org.mql.laktam.shortreads.models.SignupResponse
 
 // Handles communication with the backend for authentication.
 class AuthRepository {
-    private val authApiService = RetrofitClient.authApiService
+    private val authApiService = RetrofitClient.apiService
 
     suspend fun login(username: String, password: String): LoginResponse {
         return withContext(Dispatchers.IO) {
