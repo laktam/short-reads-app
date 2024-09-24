@@ -6,4 +6,12 @@ data class User(
     val email: String,
     val description: String,
     val followersCount : Int,
-)
+) {
+    constructor(username: String, email: String, description: String) : this(
+        profilePictureUrl = "",
+        username = username,
+        email = email,
+        description = description,
+        followersCount = 0,
+    )
+}
