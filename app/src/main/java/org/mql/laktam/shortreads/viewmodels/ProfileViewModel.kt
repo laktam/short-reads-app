@@ -15,12 +15,15 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.mql.laktam.shortreads.auth.TokenManager
 import org.mql.laktam.shortreads.models.User
+import org.mql.laktam.shortreads.repositories.FollowRepositoryDefault
 import org.mql.laktam.shortreads.repositories.UserRepositoryDefault
 import java.io.File
 import java.io.FileOutputStream
 
 class ProfileViewModel(private val tokenManager: TokenManager) : ViewModel() {
     private val userRepository = UserRepositoryDefault(tokenManager)
+    private val followRepository = FollowRepositoryDefault(tokenManager)
+
     private val _user = mutableStateOf<User?>(null)
     val user: State<User?> get() = _user // not always the logged in user, it is the last visited profile
     private var profilePicture: MultipartBody.Part? = null
@@ -44,6 +47,17 @@ class ProfileViewModel(private val tokenManager: TokenManager) : ViewModel() {
             _user.value = userRepository.getUserByUsername(username)
         }
     }
+
+    fun followingCurrentProfile(followerUsername: String, followedUsername: String) {
+        viewModelScope.launch {
+            try {
+               followingCurrentProfile.value =  followRepository.isFollowing(followerUsername, followedUsername)
+            }catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun onImageSelected(uri: Uri, context: Context) {
         val imageFile = uriToFile(uri, context)
         profilePicture = createMultipartBody(imageFile)
