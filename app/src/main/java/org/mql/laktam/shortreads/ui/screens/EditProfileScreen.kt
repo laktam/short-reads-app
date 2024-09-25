@@ -95,52 +95,19 @@ fun EditProfileScreen(profileViewModel: ProfileViewModel, navController: NavCont
                         },
                     contentScale = ContentScale.Crop
                 )
-//                Image(
-//                    painter = rememberAsyncImagePainter(it.profilePictureUrl),
-//                    contentDescription = "Profile Picture",
-//                    modifier = Modifier
-//                        .size(128.dp)
-//                        .padding(8.dp)
-//                        .clip(CircleShape)
-//                        .border(2.dp, Color.LightGray, CircleShape)
-//                        .clickable {
-//                            // Open file picker to select new image
-//                            profilePicture = selectImage(context)  // Assume this method gets an image from file picker
-//                        },
-//                    contentScale = ContentScale.Crop
-//                )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    // Username TextField
-                    OutlinedTextField(
-                        value = username,
-                        onValueChange = { username = it },
-                        label = { Text("Username") },
-                        modifier = Modifier.fillMaxWidth()
-                    )
 
-                    val followersText = if (it.followersCount == 1) {
-                        "Follower"
-                    } else {
-                        "Followers"
-                    }
-                    Text(
-                        text = "${it.followersCount} $followersText",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Gray
-                    )
+                OutlinedTextField(
+                    value = username,
+                    onValueChange = { username = it },
+                    label = { Text("Username") },
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-                }
+                Spacer(modifier = Modifier.height(16.dp))
 
-           Spacer(modifier = Modifier.height(16.dp))
-
-                // Email TextField
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -162,12 +129,6 @@ fun EditProfileScreen(profileViewModel: ProfileViewModel, navController: NavCont
                 // Save Button
                 Button (
                     onClick = {
-//                        profileViewModel.updateUserProfile(oldUsername, User(username, email, description)) {
-////                            profileViewModel.loadUser(username)
-//                            newUsername ->
-//                            println("newUsername $newUsername")
-//                            navController.navigate("profile/$newUsername")
-//                        }
                         profileViewModel.updateUserProfile(oldUsername, User(username, email, description)) {
                             newUsername ->
                             navController.navigate("profile/$newUsername") {
@@ -183,77 +144,5 @@ fun EditProfileScreen(profileViewModel: ProfileViewModel, navController: NavCont
             }
         }
     }
-
-//    user?.let {
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(16.dp),
-//            contentAlignment = Alignment.TopCenter
-//        ) {
-//
-//            Column(
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Spacer(modifier = Modifier.height(35.dp))
-//                Text(text = "Edit Profile",
-////                    style = MaterialTheme.typography.h4
-//                )
-//                Image(
-//                    painter = rememberAsyncImagePainter(it.profilePictureUrl),
-//                    contentDescription = "Profile Picture",
-//                    modifier = Modifier
-//                        .size(128.dp)
-//                        .padding(8.dp)
-//                        .clip(CircleShape)
-//                        .border(2.dp, Color.LightGray, CircleShape),
-//                    contentScale = ContentScale.Crop
-//                )
-//
-//                Spacer(modifier = Modifier.height(16.dp))
-//
-//                Row (
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    horizontalArrangement = Arrangement.Center
-//                ) {
-//                    Text(
-//                        text = it.username,
-//                        fontSize = 24.sp,
-//                        fontWeight = FontWeight.Bold,
-//                        modifier = Modifier.padding(end = 8.dp)
-//                    )
-//                    val followersText = if(it.followersCount == 1){
-//                        "Follower"
-//                    }else{
-//                        "Followers"
-//                    }
-//                    Text(
-//                        text = "${it.followersCount} $followersText",
-//                        fontSize = 18.sp,
-//                        fontWeight = FontWeight.Medium,
-//                        color = Color.Gray
-//                    )
-//                }
-//
-//                Spacer(modifier = Modifier.height(10.dp))
-//
-//                Text(
-//                    text = it.email,
-//                    fontSize = 18.sp,
-//                    fontWeight = FontWeight.Medium
-//                )
-//
-//                Spacer(modifier = Modifier.height(5.dp))
-//
-//                Text(
-//                    text = it.description,
-//                    fontSize = 16.sp,
-//                    modifier = Modifier.padding(8.dp)
-//                )
-//            }
-//
-//        }
-//    }
 
 }
