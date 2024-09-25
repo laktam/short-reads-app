@@ -37,4 +37,7 @@ interface ApiService {
     @POST
     suspend fun updateUserProfileImage(username: String, @Part image: MultipartBody.Part? , @Header("Authorization") token: String): Response<User>
 
+    @GET("follow/{followerUsername}/{followedUsername}")
+    suspend fun isFollowing( @Path("followerUsername") followerUsername: String,@Path("followedUsername") followedUsername: String, @Header("Authorization") token: String): Response<Boolean>
+
 }
