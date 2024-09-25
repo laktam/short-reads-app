@@ -46,6 +46,7 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
     val followingCurrentProfile by profileViewModel.followingCurrentProfile
     LaunchedEffect(username) {
         profileViewModel.loadUser(username)
+        profileViewModel.followingCurrentProfile(username, user?.username ?: "")
     }
 
     user?.let {
