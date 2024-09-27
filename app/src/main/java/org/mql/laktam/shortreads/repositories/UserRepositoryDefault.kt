@@ -40,10 +40,11 @@ class UserRepositoryDefault(private val tokenManager: TokenManager) : UserReposi
             if (body != null) {
                 return ProfileUpdateResponse(body.token, body.username)
             } else {
-                throw Exception("Response body is null")
+                val errorMessage = response2.errorBody()?.string() ?: "Unknown error"
+                throw Exception(errorMessage)
             }
         } else {
-            throw Exception("Update failed: ${response2.errorBody()?.string()}")
+            throw Exception(response2.errorBody()?.string())
         }
     }
 
