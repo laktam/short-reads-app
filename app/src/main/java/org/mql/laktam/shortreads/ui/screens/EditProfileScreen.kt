@@ -51,12 +51,15 @@ fun EditProfileScreen(profileViewModel: ProfileViewModel, navController: NavCont
     var email by remember { mutableStateOf(user?.email ?: "") }
     var description by remember { mutableStateOf(user?.description ?: "") }
     val oldUsername = user?.username?:"";
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) } // State for selected image URI
+
     val context = LocalContext.current as Activity
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            profileViewModel.onImageSelected(uri, context)
+            selectedImageUri = it
+            profileViewModel.onImageSelected(it, context)
         }
     }
 
@@ -83,7 +86,8 @@ fun EditProfileScreen(profileViewModel: ProfileViewModel, navController: NavCont
                 )
 
                 Image(
-                    painter = rememberAsyncImagePainter(it.profilePictureUrl),
+//                    painter = rememberAsyncImagePainter(it.profilePictureUrl),
+                    painter = rememberAsyncImagePainter( selectedImageUri  ?: "http://10.0.2.2/short-reads-backend/${it.profilePictureUrl}" ),
                     contentDescription = "Profile Picture",
                     modifier = Modifier
                         .size(128.dp)
@@ -91,7 +95,7 @@ fun EditProfileScreen(profileViewModel: ProfileViewModel, navController: NavCont
                         .clip(CircleShape)
                         .border(2.dp, Color.LightGray, CircleShape)
                         .clickable {
-                            imagePickerLauncher.launch("image/*")  // Open file picker when clicked
+                            imagePickerLauncher.launch("image/*")
                         },
                     contentScale = ContentScale.Crop
                 )
