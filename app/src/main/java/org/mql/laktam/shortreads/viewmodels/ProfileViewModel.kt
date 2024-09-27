@@ -24,6 +24,9 @@ class ProfileViewModel(private val tokenManager: TokenManager) : ViewModel() {
     private val userRepository = UserRepositoryDefault(tokenManager)
     private val followRepository = FollowRepositoryDefault(tokenManager)
 
+    private val _updateError = mutableStateOf<String>("")
+    val updateError : State<String> get() = _updateError
+
     private val _user = mutableStateOf<User?>(null)
     val user: State<User?> get() = _user // not always the logged in user, it is the last visited profile
     private var profilePicture: MultipartBody.Part? = null
@@ -96,11 +99,16 @@ class ProfileViewModel(private val tokenManager: TokenManager) : ViewModel() {
                 updateCurrentUsername(profileUpdateResponse.username)
                 loadUser(profileUpdateResponse.username)
                 onComplete(profileUpdateResponse.username)
+                //if no exception
+                _updateError.value = ""
             } catch (e: Exception) {
+                _updateError.value = e.message ?: ""
                 println("Error updating profile: ${e.message}")
                 println("Error cause: ${e.cause}")
                 e.printStackTrace()
             }
+
+
         }
     }
 
