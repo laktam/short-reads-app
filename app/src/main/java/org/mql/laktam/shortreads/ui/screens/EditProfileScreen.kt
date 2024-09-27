@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,6 +53,7 @@ fun EditProfileScreen(profileViewModel: ProfileViewModel, navController: NavCont
     var description by remember { mutableStateOf(user?.description ?: "") }
     val oldUsername = user?.username?:"";
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) } // State for selected image URI
+    val updateError by profileViewModel.updateError
 
     val context = LocalContext.current as Activity
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -145,6 +147,12 @@ fun EditProfileScreen(profileViewModel: ProfileViewModel, navController: NavCont
                     Text(text = "Save Changes")
                 }
 
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = updateError,
+                    color = MaterialTheme.colorScheme.error
+                )
             }
         }
     }
