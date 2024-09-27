@@ -32,8 +32,8 @@ fun LoginScreen(viewModel: AuthViewModel,profileViewModel: ProfileViewModel, nav
     LaunchedEffect(authState) {
         if (authState is AuthState.Success) {
             profileViewModel.updateCurrentUsername(username)
-//            navController.navigate("profile/${username}")
-            navController.navigate("profile/abdellahLaktam")
+            navController.navigate("profile/${username}")
+//            navController.navigate("profile/abdellahLaktam")
         }
     }
 

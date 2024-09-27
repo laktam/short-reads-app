@@ -46,7 +46,7 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
     val followingCurrentProfile by profileViewModel.followingCurrentProfile
     LaunchedEffect(username) {
         profileViewModel.loadUser(username)
-        profileViewModel.followingCurrentProfile(username, user?.username ?: "")
+        profileViewModel.followingCurrentProfile(username)
     }
 
     user?.let {
@@ -66,7 +66,7 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                 ) {
                     Spacer(modifier = Modifier.height(35.dp))
                     Image(
-                        painter = rememberAsyncImagePainter(it.profilePictureUrl),
+                        painter = rememberAsyncImagePainter("http://10.0.2.2/short-reads-backend/${it.profilePictureUrl}"),
                         contentDescription = "Profile Picture",
                         modifier = Modifier
                             .size(128.dp)
@@ -107,6 +107,7 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                             if(followingCurrentProfile){
                                 Button(
                                     onClick = {
+                                        profileViewModel.unfollow(it.username)
                                     },
                                 ) {
                                     Text("following")
@@ -114,6 +115,7 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                             }else{
                                 Button(
                                     onClick = {
+                                        profileViewModel.follow(it.username)
                                     },
                                 ) {
                                     Text("follow")
