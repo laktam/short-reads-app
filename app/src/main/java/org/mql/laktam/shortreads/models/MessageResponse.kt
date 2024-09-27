@@ -1,5 +1,5 @@
 package org.mql.laktam.shortreads.models
 
-data class SignupResponse(
+data class MessageResponse(
     val message: String
 )
