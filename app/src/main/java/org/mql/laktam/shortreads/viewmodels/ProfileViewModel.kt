@@ -48,10 +48,35 @@ class ProfileViewModel(private val tokenManager: TokenManager) : ViewModel() {
         }
     }
 
-    fun followingCurrentProfile(followerUsername: String, followedUsername: String) {
+    fun followingCurrentProfile(followedUsername: String) {
         viewModelScope.launch {
             try {
-               followingCurrentProfile.value =  followRepository.isFollowing(followerUsername, followedUsername)
+               followingCurrentProfile.value =  followRepository.isFollowing(currentUsername.value, followedUsername)
+                println("following current ${followingCurrentProfile.value}")
+            }catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun follow(followedUsername: String) {
+        viewModelScope.launch {
+            try {
+                val response =  followRepository.follow(currentUsername.value, followedUsername)
+                println("follow result ${response.message}")
+                followingCurrentProfile.value = true;
+            }catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun unfollow(followedUsername: String) {
+        viewModelScope.launch {
+            try {
+                val response = followRepository.unfollow(currentUsername.value, followedUsername)
+                println("unfollow result ${response.message}")
+                followingCurrentProfile.value = false;
             }catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -96,7 +121,7 @@ class ProfileViewModel(private val tokenManager: TokenManager) : ViewModel() {
     // Utility function to create MultipartBody.Part
     private fun createMultipartBody(file: File): MultipartBody.Part {
         val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData("file", file.name, requestFile)
+        return MultipartBody.Part.createFormData("image", file.name, requestFile)
     }
 
 
