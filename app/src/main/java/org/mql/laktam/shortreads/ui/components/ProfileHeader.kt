@@ -49,7 +49,7 @@ fun ProfileHeader(user: User) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             // Profile Image
             Image(

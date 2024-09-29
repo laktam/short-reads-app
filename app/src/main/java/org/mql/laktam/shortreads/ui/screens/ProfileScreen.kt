@@ -62,12 +62,18 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier
+                    .padding(top = 22.dp)
+                    .padding(bottom = 30.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+
             ) {
                 Text(
                     text ="Profile",
-                    color = Color.White
+                    color = Color.White,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Medium,
                 )
 
                 if (currentUsername == it.username) {
@@ -75,7 +81,7 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit Profile",
                         modifier = Modifier
-                            .size(25.dp)
+                            .size(23.dp)
                             .clickable {
                                 navController.navigate("editProfile")
                             },
