@@ -4,6 +4,7 @@ import ProfileHeader
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,6 +61,29 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                 .padding(30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text ="Profile",
+                    color = Color.White
+                )
+
+                if (currentUsername == it.username) {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit Profile",
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clickable {
+                                navController.navigate("editProfile")
+                            },
+                        tint = Color.White,
+
+                    )
+                }
+            }
             ProfileHeader(it)
         }
 //        Box(
