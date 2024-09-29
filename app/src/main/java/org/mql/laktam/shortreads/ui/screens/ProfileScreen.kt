@@ -1,6 +1,8 @@
 package org.mql.laktam.shortreads.ui.screens
 
+import ProfileHeader
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,113 +52,123 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
     }
 
     user?.let {
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            contentAlignment = Alignment.TopCenter
+                .fillMaxWidth()
+                .background(Color(0xFF0052CC)) // Blue background
+//                .height(250.dp)
+                .padding(30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Spacer(modifier = Modifier.height(30.dp))
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Spacer(modifier = Modifier.height(35.dp))
-                    Image(
-                        painter = rememberAsyncImagePainter("http://10.0.2.2/short-reads-backend/${it.profilePictureUrl}"),
-                        contentDescription = "Profile Picture",
-                        modifier = Modifier
-                            .size(128.dp)
-//                            .padding(8.dp)
-                            .clip(RoundedCornerShape(9.dp))
-                            .border(2.dp, Color.LightGray, RoundedCornerShape(9.dp)), // Same shape for the border
-                        contentScale = ContentScale.Crop
-                    )
-                }
-
-                    // username, follow or edit button
-                    Row (
-                            verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = it.username,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-
-                        if(currentUsername == user?.username){
-                            Button(
-                                onClick = {
-                                    navController.navigate("editProfile")
-                                },
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Edit,
-                                    contentDescription = "Edit Profile",
-                                    modifier = Modifier
-                                        .size(16.dp)
-                                )
-                            }
-                        }else{
-                            // if not followed display follow button or "following"
-                            if(followingCurrentProfile){
-                                Button(
-                                    onClick = {
-                                        profileViewModel.unfollow(it.username)
-                                    },
-                                ) {
-                                    Text("following")
-                                }
-                            }else{
-                                Button(
-                                    onClick = {
-                                        profileViewModel.follow(it.username)
-                                    },
-                                ) {
-                                    Text("follow")
-                                }
-                            }
-
-                        }
-
-                    }
-
-                val followersText = if(it.followersCount == 1){
-                    "Follower"
-                }else{
-                    "Followers"
-                }
-                Text(
-                    text = "${it.followersCount} $followersText",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color.Gray,
-                )
-
-                Spacer(modifier = Modifier.height(5.dp))
-                // email
-                Text(
-                    text = it.email,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium
-                )
-
-                Spacer(modifier = Modifier.height(5.dp))
-
-                Text(
-                    text = it.description,
-                    fontSize = 16.sp,
-//                    modifier = Modifier.padding(8.dp)
-                )
-
-            }
-
+            ProfileHeader(it)
         }
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(16.dp),
+//            contentAlignment = Alignment.TopCenter
+//        ) {
+//            Column(
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                Spacer(modifier = Modifier.height(30.dp))
+//                Row (
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    horizontalArrangement = Arrangement.Center
+//                ) {
+//                    Spacer(modifier = Modifier.height(35.dp))
+//                    Image(
+//                        painter = rememberAsyncImagePainter("http://10.0.2.2/short-reads-backend/${it.profilePictureUrl}"),
+//                        contentDescription = "Profile Picture",
+//                        modifier = Modifier
+//                            .size(128.dp)
+////                            .padding(8.dp)
+//                            .clip(RoundedCornerShape(9.dp))
+//                            .border(2.dp, Color.LightGray, RoundedCornerShape(9.dp)), // Same shape for the border
+//                        contentScale = ContentScale.Crop
+//                    )
+//                }
+//
+//                    // username, follow or edit button
+//                    Row (
+//                            verticalAlignment = Alignment.CenterVertically,
+//                        horizontalArrangement = Arrangement.SpaceBetween,
+//                        modifier = Modifier.fillMaxWidth()
+//                    ) {
+//                        Text(
+//                            text = it.username,
+//                            fontSize = 24.sp,
+//                            fontWeight = FontWeight.Bold,
+//                        )
+//
+//                        if(currentUsername == user?.username){
+//                            Button(
+//                                onClick = {
+//                                    navController.navigate("editProfile")
+//                                },
+//                            ) {
+//                                Icon(
+//                                    imageVector = Icons.Default.Edit,
+//                                    contentDescription = "Edit Profile",
+//                                    modifier = Modifier
+//                                        .size(16.dp)
+//                                )
+//                            }
+//                        }else{
+//                            // if not followed display follow button or "following"
+//                            if(followingCurrentProfile){
+//                                Button(
+//                                    onClick = {
+//                                        profileViewModel.unfollow(it.username)
+//                                    },
+//                                ) {
+//                                    Text("following")
+//                                }
+//                            }else{
+//                                Button(
+//                                    onClick = {
+//                                        profileViewModel.follow(it.username)
+//                                    },
+//                                ) {
+//                                    Text("follow")
+//                                }
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//                val followersText = if(it.followersCount == 1){
+//                    "Follower"
+//                }else{
+//                    "Followers"
+//                }
+//                Text(
+//                    text = "${it.followersCount} $followersText",
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Medium,
+//                    color = Color.Gray,
+//                )
+//
+//                Spacer(modifier = Modifier.height(5.dp))
+//                // email
+//                Text(
+//                    text = it.email,
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Medium
+//                )
+//
+//                Spacer(modifier = Modifier.height(5.dp))
+//
+//                Text(
+//                    text = it.description,
+//                    fontSize = 16.sp,
+////                    modifier = Modifier.padding(8.dp)
+//                )
+//
+//            }
+//
+//        }
     }
 
 }
