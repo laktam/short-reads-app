@@ -53,44 +53,50 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
     }
 
     user?.let {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFF0052CC)) // Blue background
-//                .height(250.dp)
-                .padding(30.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(top = 22.dp)
-                    .padding(bottom = 30.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-
-            ) {
-                Text(
-                    text ="Profile",
-                    color = Color.White,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Medium,
+        Box {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(290.dp)
+                        .background(Color(0xFF0052CC), shape = RoundedCornerShape(bottomEnd = 25.dp))
                 )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(30.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(top = 22.dp)
+                        .padding(bottom = 30.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
 
-                if (currentUsername == it.username) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit Profile",
-                        modifier = Modifier
-                            .size(23.dp)
-                            .clickable {
-                                navController.navigate("editProfile")
-                            },
-                        tint = Color.White,
-
+                    ) {
+                    Text(
+                        text = "Profile",
+                        color = Color.White,
+                        fontSize = 21.sp,
+                        fontWeight = FontWeight.Medium,
                     )
+
+                    if (currentUsername == it.username) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit Profile",
+                            modifier = Modifier
+                                .size(23.dp)
+                                .clickable {
+                                    navController.navigate("editProfile")
+                                },
+                            tint = Color.White,
+
+                            )
+                    }
                 }
+                ProfileHeader(it)
             }
-            ProfileHeader(it)
         }
 //        Box(
 //            modifier = Modifier
