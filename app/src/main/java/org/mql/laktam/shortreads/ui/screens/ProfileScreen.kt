@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import org.mql.laktam.shortreads.auth.TokenManager
+import org.mql.laktam.shortreads.ui.components.BottomNavigationBar
 import org.mql.laktam.shortreads.viewmodels.ProfileViewModel
 
 // need to check if current profile is the logged in profile to
@@ -53,7 +54,8 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
     }
 
     user?.let {
-        Box {
+        Box (modifier = Modifier.fillMaxSize())
+        {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -66,10 +68,11 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                     .padding(30.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // tob bar (Profile , Edit icon)
                 Row(
                     modifier = Modifier
-                        .padding(top = 22.dp)
-                        .padding(bottom = 30.dp)
+                        .padding(top = 25.dp)
+                        .padding(bottom = 25.dp)
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
 
@@ -96,6 +99,7 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                     }
                 }
                 ProfileHeader(it)
+                BottomNavigationBar(it, followingCurrentProfile, currentUsername == it.username, navController)
             }
         }
 //        Box(
