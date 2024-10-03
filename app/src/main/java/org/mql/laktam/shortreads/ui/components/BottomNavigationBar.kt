@@ -33,9 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.mql.laktam.shortreads.models.User
+import org.mql.laktam.shortreads.viewmodels.ProfileViewModel
 
 @Composable
-fun BottomNavigationBar(user: User,followingCurrentProfile: Boolean, isCurrentUser: Boolean, navController: NavController) {
+fun BottomNavigationBar(user: User,profileViewModel: ProfileViewModel,followingCurrentProfile: Boolean, isCurrentUser: Boolean, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         BottomAppBar(
             modifier = Modifier
@@ -69,7 +70,13 @@ fun BottomNavigationBar(user: User,followingCurrentProfile: Boolean, isCurrentUs
 
         FloatingActionButton(
             onClick = {
-
+                if(isCurrentUser) {
+                    navController.navigate("newPost")
+                }else if(followingCurrentProfile){
+                    profileViewModel.unfollow(user.username)
+                }else{
+                    profileViewModel.follow(user.username)
+                }
             },
             containerColor = Color(0xFF0092ED),// 0C97ED
             shape = CircleShape,
@@ -79,11 +86,11 @@ fun BottomNavigationBar(user: User,followingCurrentProfile: Boolean, isCurrentUs
 //                .border(3.dp, Color.White, CircleShape)
         ) {
             val buttonText = if(isCurrentUser) {
-                "New post"
+                "new post"
             }else if(followingCurrentProfile){
-                "follow"
-            }else{
                 "unfollow"
+            }else{
+                "follow"
             }
             Text(
                 text = buttonText,
