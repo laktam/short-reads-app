@@ -17,6 +17,7 @@ import org.mql.laktam.shortreads.auth.TokenManager
 import org.mql.laktam.shortreads.models.User
 import org.mql.laktam.shortreads.repositories.FollowRepositoryDefault
 import org.mql.laktam.shortreads.repositories.UserRepositoryDefault
+import org.mql.laktam.shortreads.utils.ImageMultipartUtils
 import java.io.File
 import java.io.FileOutputStream
 
@@ -87,8 +88,8 @@ class ProfileViewModel(private val tokenManager: TokenManager) : ViewModel() {
     }
 
     fun onImageSelected(uri: Uri, context: Context) {
-        val imageFile = uriToFile(uri, context)
-        profilePicture = createMultipartBody(imageFile)
+        val imageMultipartUtils = ImageMultipartUtils(context);
+        profilePicture = imageMultipartUtils.getMultipartBodyFromUri(uri)
     }
 
     fun updateUserProfile( username: String, user: User, onComplete: (username: String) -> Unit) {
@@ -111,26 +112,4 @@ class ProfileViewModel(private val tokenManager: TokenManager) : ViewModel() {
 
         }
     }
-
-    // Utility function to convert URI to File
-    private fun uriToFile(uri: Uri, context: Context): File {
-        val contentResolver = context.contentResolver
-        val file = File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
-        val inputStream = contentResolver.openInputStream(uri) ?: return file
-        val outputStream = FileOutputStream(file)
-
-        inputStream.copyTo(outputStream)
-        inputStream.close()
-        outputStream.close()
-
-        return file
-    }
-
-    // Utility function to create MultipartBody.Part
-    private fun createMultipartBody(file: File): MultipartBody.Part {
-        val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData("image", file.name, requestFile)
-    }
-
-
 }
