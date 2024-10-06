@@ -71,7 +71,7 @@ fun BottomNavigationBar(user: User,profileViewModel: ProfileViewModel,followingC
         FloatingActionButton(
             onClick = {
                 if(isCurrentUser) {
-                    navController.navigate("newPost")
+                    navController.navigate("newPost/${user.username}")
                 }else if(followingCurrentProfile){
                     profileViewModel.unfollow(user.username)
                 }else{

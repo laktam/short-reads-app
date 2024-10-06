@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
@@ -39,15 +41,19 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import org.mql.laktam.shortreads.auth.TokenManager
 import org.mql.laktam.shortreads.ui.components.BottomNavigationBar
+import org.mql.laktam.shortreads.ui.components.LastPosts
+import org.mql.laktam.shortreads.viewmodels.PostsViewModel
 import org.mql.laktam.shortreads.viewmodels.ProfileViewModel
 
 // need to check if current profile is the logged in profile to
 // be able to add description or edit profile
 @Composable
-fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navController: NavController) {
+fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navController: NavController, postsViewModel: PostsViewModel) {
     val user by profileViewModel.user
     val currentUsername by profileViewModel.currentUsername
     val followingCurrentProfile by profileViewModel.followingCurrentProfile
+    val scrollState = rememberScrollState()
+
     LaunchedEffect(username) {
         profileViewModel.loadUser(username)
         profileViewModel.followingCurrentProfile(username)
@@ -56,51 +62,62 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
     user?.let {
         Box (modifier = Modifier.fillMaxSize())
         {
+            Box (
+                modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+            ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(290.dp)
-                        .background(Color(0xFF0052CC), shape = RoundedCornerShape(bottomEnd = 25.dp))
+                        .background(
+                            Color(0xFF0052CC),
+                            shape = RoundedCornerShape(bottomEnd = 25.dp)
+                        )
                 )
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(30.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // tob bar (Profile , Edit icon)
-                Row(
+                Column(
                     modifier = Modifier
-                        .padding(top = 25.dp)
-                        .padding(bottom = 25.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                        .fillMaxWidth()
+                        .padding(30.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // tob bar (Profile , Edit icon)
+                    Row(
+                        modifier = Modifier
+                            .padding(top = 25.dp)
+                            .padding(bottom = 25.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
 
-                    ) {
-                    Text(
-                        text = "Profile",
-                        color = Color.White,
-                        fontSize = 21.sp,
-                        fontWeight = FontWeight.Medium,
-                    )
+                        ) {
+                        Text(
+                            text = "Profile",
+                            color = Color.White,
+                            fontSize = 21.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
 
-                    if (currentUsername == it.username) {
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit Profile",
-                            modifier = Modifier
-                                .size(23.dp)
-                                .clickable {
-                                    navController.navigate("editProfile")
-                                },
-                            tint = Color.White,
+                        if (currentUsername == it.username) {
+                            Icon(
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = "Edit Profile",
+                                modifier = Modifier
+                                    .size(23.dp)
+                                    .clickable {
+                                        navController.navigate("editProfile")
+                                    },
+                                tint = Color.White,
 
-                            )
+                                )
+                        }
                     }
+                    ProfileHeader(it)// profile card
+                    Spacer(modifier = Modifier.height(15.dp))
+                    LastPosts(it, postsViewModel)
                 }
-                ProfileHeader(it)
-                BottomNavigationBar(it, followingCurrentProfile, currentUsername == it.username, navController)
             }
+            BottomNavigationBar(it,profileViewModel, followingCurrentProfile, currentUsername == it.username, navController)
         }
 //        Box(
 //            modifier = Modifier

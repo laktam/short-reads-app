@@ -50,6 +50,10 @@ android {
 }
 
 dependencies {
+    // for posts horizontal slider
+    implementation("com.google.accompanist:accompanist-pager:0.36.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.36.0")
+
     implementation(libs.coil.compose)
     // navigation dependencies
     implementation(libs.androidx.navigation.compose)
