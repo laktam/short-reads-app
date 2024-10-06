@@ -1,9 +1,11 @@
 package org.mql.laktam.shortreads.auth
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.mql.laktam.shortreads.models.LoginResponse
 import org.mql.laktam.shortreads.models.ProfileUpdateResponse
 import org.mql.laktam.shortreads.models.MessageResponse
+import org.mql.laktam.shortreads.models.NewPost
 import org.mql.laktam.shortreads.models.User
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -48,4 +50,12 @@ interface ApiService {
     @GET("follows/unfollow/{followerUsername}/{followedUsername}")
     suspend fun unfollow(@Path("followerUsername") followerUsername: String,@Path("followedUsername") followedUsername: String, @Header("Authorization") token: String): Response<MessageResponse>
 
+    @Multipart
+    @POST("posts/new/{username}")
+    suspend fun newPost(
+        @Path("username") username: String,
+        @Part("content") content: RequestBody,
+        @Part image: MultipartBody.Part?,
+        @Header("Authorization") token: String
+    ): Response<MessageResponse>
 }
