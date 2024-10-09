@@ -6,6 +6,8 @@ import org.mql.laktam.shortreads.models.LoginResponse
 import org.mql.laktam.shortreads.models.ProfileUpdateResponse
 import org.mql.laktam.shortreads.models.MessageResponse
 import org.mql.laktam.shortreads.models.NewPost
+import org.mql.laktam.shortreads.models.PageResponse
+import org.mql.laktam.shortreads.models.Post
 import org.mql.laktam.shortreads.models.User
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -16,6 +18,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 data class SignupRequest(val username: String, val email: String, val password: String)
 data class LoginRequest(val username: String, val password: String)
@@ -58,4 +61,11 @@ interface ApiService {
         @Part image: MultipartBody.Part?,
         @Header("Authorization") token: String
     ): Response<MessageResponse>
+
+    @GET("posts/user/{username}")
+    suspend fun getPostsByUsername(
+        @Path("username") username: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): PageResponse<Post>
 }
