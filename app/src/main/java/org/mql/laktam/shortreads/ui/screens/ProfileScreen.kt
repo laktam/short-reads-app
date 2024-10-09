@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import org.mql.laktam.shortreads.auth.TokenManager
+import org.mql.laktam.shortreads.ui.components.AllPostsList
 import org.mql.laktam.shortreads.ui.components.BottomNavigationBar
 import org.mql.laktam.shortreads.ui.components.LastPosts
 import org.mql.laktam.shortreads.viewmodels.PostsViewModel
@@ -115,6 +116,7 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                     ProfileHeader(it)// profile card
                     Spacer(modifier = Modifier.height(15.dp))
                     LastPosts(it, postsViewModel)
+                    AllPostsList(postsViewModel, username)
                 }
             }
             BottomNavigationBar(it,profileViewModel, followingCurrentProfile, currentUsername == it.username, navController)
