@@ -6,6 +6,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.mql.laktam.shortreads.auth.RetrofitClient
 import org.mql.laktam.shortreads.auth.TokenManager
 import org.mql.laktam.shortreads.models.MessageResponse
+import org.mql.laktam.shortreads.models.PageResponse
+import org.mql.laktam.shortreads.models.Post
 
 class PostRepositoryDefault(private val tokenManager: TokenManager): PostRepository {
     private val apiService = RetrofitClient.apiService
@@ -20,6 +22,10 @@ class PostRepositoryDefault(private val tokenManager: TokenManager): PostReposit
             val errorMessage = response.errorBody()?.string() ?: "Unknown error"
             throw Exception(errorMessage)
         }
+    }
+
+    override suspend fun getPosts(username: String, page: Int, size: Int): PageResponse<Post> {
+        return apiService.getPostsByUsername(username, page, size)
     }
 
 }
