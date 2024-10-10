@@ -5,8 +5,7 @@ import okhttp3.RequestBody
 import org.mql.laktam.shortreads.models.LoginResponse
 import org.mql.laktam.shortreads.models.ProfileUpdateResponse
 import org.mql.laktam.shortreads.models.MessageResponse
-import org.mql.laktam.shortreads.models.NewPost
-import org.mql.laktam.shortreads.models.PageResponse
+import org.mql.laktam.shortreads.models.Page
 import org.mql.laktam.shortreads.models.Post
 import org.mql.laktam.shortreads.models.User
 import retrofit2.http.Body
@@ -62,10 +61,11 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Response<MessageResponse>
 
-    @GET("posts/user/{username}")
+    @GET("posts/user/pagination/{username}")
     suspend fun getPostsByUsername(
         @Path("username") username: String,
         @Query("page") page: Int,
-        @Query("size") size: Int
-    ): PageResponse<Post>
+        @Query("size") size: Int,
+        @Header("Authorization") token: String
+    ): Response<Page<Post>>
 }
