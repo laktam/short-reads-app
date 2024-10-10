@@ -42,9 +42,9 @@ class PostsViewModel(private val tokenManager: TokenManager): ViewModel() {
 
             try {
                 val page = postRepository.getPosts(username, currentPage, pageSize)
-                    _posts.value = _posts.value + page.content
-                    currentPage++
-                    isLastPage = page.last
+                _posts.value += page.content
+                currentPage++
+                isLastPage = page.last
             } catch (e: Exception) {
                 e.printStackTrace()
                 _error.value = "Error loading posts: ${e.message}"
@@ -53,23 +53,6 @@ class PostsViewModel(private val tokenManager: TokenManager): ViewModel() {
             }
         }
     }
-
-//    fun loadMorePosts(username: String) {
-//        if (_isLastPage.value) return // Don't load more if it's the last page
-//
-//        viewModelScope.launch {
-//            try{
-//                val response = postRepository.getPosts(username, page, pageSize)
-//                println("Load more posts response ::::: $response")
-//                _posts.value += response.content
-//                page++
-//                _isLastPage.value = response.last
-//            }catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//
-//        }
-//    }
 
     fun onImageSelected(uri: Uri, context: Context) {
         val imageMultipartUtils = ImageMultipartUtils(context);
