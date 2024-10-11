@@ -34,4 +34,14 @@ class PostRepositoryDefault(private val tokenManager: TokenManager): PostReposit
         }
     }
 
+    override suspend fun getLastPosts(username: String): Page<Post> {
+        val response = apiService.getLastPostsByUsername(username,"Bearer ${tokenManager.getToken()}")
+        if (response.isSuccessful) {
+            return response.body() ?: throw Exception(response.message())
+        }else{
+            val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+            throw Exception(errorMessage)
+        }
+    }
+
 }
