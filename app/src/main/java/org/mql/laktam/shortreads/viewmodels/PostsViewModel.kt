@@ -21,6 +21,9 @@ class PostsViewModel(private val tokenManager: TokenManager): ViewModel() {
     private val postRepository = PostRepositoryDefault(tokenManager)
     private var backgroundImage: MultipartBody.Part? = null
 
+    private val _lastPosts = MutableStateFlow<List<Post>>(emptyList())
+    val lastPosts: StateFlow<List<Post>> = _lastPosts.asStateFlow()
+
     private val _posts = MutableStateFlow<List<Post>>(emptyList())
     val posts: StateFlow<List<Post>> = _posts.asStateFlow()
 
@@ -50,6 +53,17 @@ class PostsViewModel(private val tokenManager: TokenManager): ViewModel() {
                 _error.value = "Error loading posts: ${e.message}"
             } finally {
                 _isLoading.value = false
+            }
+        }
+    }
+
+    fun loadLastPosts(username: String){
+        viewModelScope.launch {
+            try {
+                val page = postRepository.getLastPosts(username)
+                _lastPosts.value = page.content
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
