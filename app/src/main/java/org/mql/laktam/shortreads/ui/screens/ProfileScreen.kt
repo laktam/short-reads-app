@@ -38,6 +38,8 @@ import org.mql.laktam.shortreads.ui.components.TextPostItem
 import org.mql.laktam.shortreads.viewmodels.PostsViewModel
 import org.mql.laktam.shortreads.viewmodels.ProfileViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.zIndex
+
 // need to check if current profile is the logged in profile to
 // be able to add description or edit profile
 @Composable
@@ -59,61 +61,75 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
 
     user?.let {
         Box(modifier = Modifier.fillMaxSize()) {
-            Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(290.dp)
-                        .background(
-                            Color(0xFF0052CC),
-                            shape = RoundedCornerShape(bottomEnd = 25.dp)
-                        )
-                )
+//            Box(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(290.dp)
+//                        .background(
+//                            Color(0xFF0052CC),
+//                            shape = RoundedCornerShape(bottomEnd = 25.dp)
+//                        )
+//                )
             LazyColumn (
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(bottom = 56.dp) // Adjust padding for bottom navigation
             ) {
                 // Profile header section
                 item {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        // Background Box, scrolls with content
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(290.dp)
+                                .background(
+                                    Color(0xFF0052CC),
+                                    shape = RoundedCornerShape(bottomEnd = 25.dp)
+                                )
+                                .zIndex(0f) // Ensure it's behind other content
+                        )
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
 //                            .background(
 //                                Color(0xFF0052CC),
 //                                shape = RoundedCornerShape(bottomEnd = 25.dp)
 //                            )
-                            .padding(30.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        // Profile header content
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 25.dp, bottom = 25.dp)
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                                .padding(30.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(
-                                text = "Profile",
-                                color = Color.White,
-                                fontSize = 21.sp,
-                                fontWeight = FontWeight.Medium
-                            )
-
-                            if (currentUsername == it.username) {
-                                Icon(
-                                    imageVector = Icons.Default.Edit,
-                                    contentDescription = "Edit Profile",
-                                    modifier = Modifier
-                                        .size(23.dp)
-                                        .clickable {
-                                            navController.navigate("editProfile")
-                                        },
-                                    tint = Color.White
+                            // Profile header content
+                            Row(
+                                modifier = Modifier
+                                    .padding(top = 25.dp, bottom = 25.dp)
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Profile",
+                                    color = Color.White,
+                                    fontSize = 21.sp,
+                                    fontWeight = FontWeight.Medium
                                 )
-                            }
-                        }
 
-                        ProfileHeader(it)
-                        LastPosts(it, postsViewModel)
+                                if (currentUsername == it.username) {
+                                    Icon(
+                                        imageVector = Icons.Default.Edit,
+                                        contentDescription = "Edit Profile",
+                                        modifier = Modifier
+                                            .size(23.dp)
+                                            .clickable {
+                                                navController.navigate("editProfile")
+                                            },
+                                        tint = Color.White
+                                    )
+                                }
+                            }
+
+                            ProfileHeader(it)
+                            LastPosts(it, postsViewModel)
+                        }
                     }
                 }
 
