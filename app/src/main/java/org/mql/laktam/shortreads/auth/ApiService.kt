@@ -68,4 +68,10 @@ interface ApiService {
         @Query("size") size: Int,
         @Header("Authorization") token: String
     ): Response<Page<Post>>
+
+    @GET("posts/user/last/{username}")
+    suspend fun getLastPostsByUsername(
+        @Path("username") username: String,
+        @Header("Authorization") token: String
+    ): Response<Page<Post>>
 }
