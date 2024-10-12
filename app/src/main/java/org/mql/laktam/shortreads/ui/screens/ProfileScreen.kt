@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -92,10 +93,6 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-//                            .background(
-//                                Color(0xFF0052CC),
-//                                shape = RoundedCornerShape(bottomEnd = 25.dp)
-//                            )
                                 .padding(30.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -128,7 +125,24 @@ fun ProfileScreen(username: String, profileViewModel: ProfileViewModel, navContr
                             }
 
                             ProfileHeader(it)
+                            Spacer(modifier = Modifier.height(20.dp))
+                            Text(
+                                text = "Latest posts",
+                                fontSize = 21.sp,
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier.align(Alignment.Start)
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+
                             LastPosts(it, postsViewModel)
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Text(
+                                text = "All posts",
+                                fontSize = 21.sp,
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier.align(Alignment.Start)
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
                         }
                     }
                 }
