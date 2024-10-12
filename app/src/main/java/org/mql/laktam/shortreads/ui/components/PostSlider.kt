@@ -50,7 +50,7 @@ fun PostItem(post: Post) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .aspectRatio(4f / 3f)
+            .aspectRatio(9f / 16f)//4f / 3f
     ) {
         if (post.backgroundUrl.isNotEmpty()) {
             AsyncImage(
