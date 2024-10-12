@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,7 +52,7 @@ fun NewPostScreen(navController: NavController, postsViewModel: PostsViewModel, 
     }
     // color
     var selectedColor by remember { mutableStateOf(Color.Gray) }
-    var showColorPicker by remember { mutableStateOf(true) }
+    var showColorPicker by remember { mutableStateOf(false) }
 
     Column (
         modifier = Modifier.fillMaxSize(),
@@ -65,6 +66,7 @@ fun NewPostScreen(navController: NavController, postsViewModel: PostsViewModel, 
 //            contentAlignment = Alignment.Center // Align content in the center
         ) {
             Box(
+                modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ){
                 TextField(
@@ -82,17 +84,22 @@ fun NewPostScreen(navController: NavController, postsViewModel: PostsViewModel, 
                 )
             }
             Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(20.dp)
+                    .background(Color.Transparent)
 //                contentAlignment = Alignment.,
             ){
                 Box(
                     modifier = Modifier
-                        .size(150.dp) // Adjust size as needed
+                        .size(60.dp) // Adjust size as needed
                         .background(selectedColor, CircleShape)
+                        .align(Alignment.BottomEnd)
+                        .border(2.dp, Color.Gray, CircleShape)
                         .clickable {
                             showColorPicker = !showColorPicker
                         }
                 )
-
             }
         }
         if (showColorPicker) {
