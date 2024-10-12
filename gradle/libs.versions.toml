@@ -17,8 +17,10 @@ navigationCompose = "2.8.1"
 navigationRuntimeKtx = "2.8.0"
 retrofit = "2.9.0"
 runtimeLivedata = "1.7.2"
+colorpicker = "1.1.2"
 
 [libraries]
+compose-colorpicker = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanistPager" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
