@@ -3,6 +3,7 @@ package org.mql.laktam.shortreads.ui.screens
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,10 +29,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.github.skydoves.colorpicker.compose.ColorEnvelope
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
@@ -42,6 +48,7 @@ fun NewPostScreen(navController: NavController, postsViewModel: PostsViewModel, 
     var content by remember { mutableStateOf("") }
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
     val context = LocalContext.current
+
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -66,9 +73,27 @@ fun NewPostScreen(navController: NavController, postsViewModel: PostsViewModel, 
 //            contentAlignment = Alignment.Center // Align content in the center
         ) {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .aspectRatio(9f / 16f),
                 contentAlignment = Alignment.Center,
+
             ){
+                Image(
+                    painter = rememberAsyncImagePainter(selectedImageUri),
+                    contentDescription = "Background image",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .aspectRatio(9f / 16f),
+                    contentScale = ContentScale.Crop,
+                )
+                // color overlay
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(selectedColor) // Adjust the color and transparency here
+                )
+
                 TextField(
                     value = content,
                     onValueChange = { content = it },
@@ -92,10 +117,10 @@ fun NewPostScreen(navController: NavController, postsViewModel: PostsViewModel, 
             ){
                 Box(
                     modifier = Modifier
-                        .size(60.dp) // Adjust size as needed
+                        .size(65.dp) // Adjust size as needed
                         .background(selectedColor, CircleShape)
                         .align(Alignment.BottomEnd)
-                        .border(2.dp, Color.Gray, CircleShape)
+                        .border(3.dp, Color.Gray, CircleShape)
                         .clickable {
                             showColorPicker = !showColorPicker
                         }
