@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import org.mql.laktam.shortreads.models.Post
@@ -53,14 +54,22 @@ fun PostItem(post: Post) {
             .aspectRatio(9f / 16f)//4f / 3f
     ) {
         if (post.backgroundUrl.isNotEmpty()) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(post.backgroundUrl)
-                    .size(Size.ORIGINAL)
-                    .build(),
-                contentDescription = null,
+//            AsyncImage(
+//                model = ImageRequest.Builder(LocalContext.current)
+//                    .data(post.backgroundUrl)
+//                    .size(Size.ORIGINAL)
+//                    .build(),
+//                contentDescription = null,
+//                contentScale = ContentScale.Crop,
+//                modifier = Modifier.fillMaxSize()
+//            )
+            Image(
+                painter = rememberAsyncImagePainter("http://10.0.2.2/short-reads-backend/${post.backgroundUrl}"),
+                contentDescription = "Background image",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .aspectRatio(9f / 16f),
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
             )
         } else {
             Box(
@@ -69,7 +78,7 @@ fun PostItem(post: Post) {
                     .background(Color.White)
             )
         }
-
+        println("post bg :::: ${post.backgroundUrl}")
         Text(
             text = post.content,
             color = Color.White,
